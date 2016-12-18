@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 
 namespace DeleteFiles.Core
 {
@@ -51,7 +52,14 @@ namespace DeleteFiles.Core
 
                 foreach (var directory in directories)
                 {
-                    this.GetFiles(directory, recursive);
+                    try
+                    {
+                        this.GetFiles(directory, recursive);
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        continue;
+                    }
                 }
             }
         }
