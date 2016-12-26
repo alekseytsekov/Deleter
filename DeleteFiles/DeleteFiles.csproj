@@ -73,6 +73,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Globals\GlobalVar.cs" />
+    <Compile Include="Interfaces\IDeleter.cs" />
+    <Compile Include="Interfaces\IDeleterRepo.cs" />
+    <Compile Include="Repo\DeleterRepo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -116,5 +120,6 @@
   <ItemGroup>
     <Content Include="Rubber-512.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

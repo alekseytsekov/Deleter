@@ -1,74 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.AccessControl;
-
+﻿
 namespace DeleteFiles.Core
 {
-    internal class Deleter
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using DeleteFiles.Interfaces;
+
+    internal class Deleter : IDeleter
     {
-        private string extension;
-        private ICollection<string> files;
         private ICollection<string> logs;
 
-        internal Deleter(string extension)
+        public Deleter()
         {
-            this.extension = extension;
-            this.files = new HashSet<string>();
             this.logs = new HashSet<string>();
         }
 
-        internal IEnumerable<string> GetFilesForDelete(string directoryPath, bool recursive)
+        public string[] GetFilesForDelete(string directoryPath, bool recursive, string extension)
         {
-            this.GetFiles(directoryPath, recursive);
+            ICollection<string> container = new List<string>();
+            
+            this.GetFiles(directoryPath, recursive, container, extension);
 
-            return this.files;
+            return container.ToArray();
         }
-
-        internal bool DeleteFileFromList(string filePath)
-        {
-            if (!this.files.Contains(filePath))
-            {
-                return false;
-            }
-            var isDeleted = this.files.Remove(filePath);
-
-            return isDeleted;
-        }
-
-        private void GetFiles(string directoryPath, bool recursive)
-        {
-            var filesInDirectory = Directory.GetFiles(directoryPath).Where(file => file.EndsWith(this.extension));
-
-            foreach (var file in filesInDirectory)
-            {
-                this.files.Add(file);
-            }
-
-            if (recursive)
-            {
-                var directories = Directory.GetDirectories(directoryPath);
-
-                foreach (var directory in directories)
-                {
-                    try
-                    {
-                        this.GetFiles(directory, recursive);
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        continue;
-                    }
-                }
-            }
-        }
-
-        internal int DeleteFiles()
+        
+        public int DeleteFiles(IEnumerable<string> filess)
         {
             int deletedFilesCount = 0;
             
-            foreach (var file in this.files)
+            foreach (var file in filess)
             {
                 try
                 {
@@ -84,23 +45,45 @@ namespace DeleteFiles.Core
                 }
             }
 
-            if (this.logs.Count == 0)
-            {
-                this.files.Clear();
-                this.logs.Clear();
-            }
-            else
-            {
-                this.files.Clear();
-            }
-
             return deletedFilesCount;
         }
 
-        internal string[] GetLogs
+        public string[] GetLogs
         {
             get { return this.logs.ToArray(); }
         }
 
+        private void GetFiles(string directoryPath, bool recursive, ICollection<string> container, string extension)
+        {
+            var filesInDirectory = Directory.GetFiles(directoryPath).Where(file => file.EndsWith(extension));
+
+            foreach (var file in filesInDirectory)
+            {
+                container.Add(file);
+            }
+
+            if (recursive)
+            {
+                var directories = Directory.GetDirectories(directoryPath);
+
+                foreach (var directory in directories)
+                {
+                    try
+                    {
+                        var dir = new DirectoryInfo(directory).Attributes;
+
+                        if ((dir & FileAttributes.System) != 0)
+                        {
+                            continue;
+                        }
+                        this.GetFiles(directory, recursive, container, extension);
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        continue;
+                    }
+                }
+            }
+        }
     }
 }

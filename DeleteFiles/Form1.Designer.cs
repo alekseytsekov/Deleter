@@ -35,12 +35,15 @@
             this.cBoxExtensions = new System.Windows.Forms.ComboBox();
             this.lblExtensionLabel = new System.Windows.Forms.Label();
             this.checkBoxRecursiveFolder = new System.Windows.Forms.CheckBox();
-            this.cBoxPreparedFiles = new System.Windows.Forms.ComboBox();
             this.btnRemoveFile = new System.Windows.Forms.Button();
             this.lblPreparedFilesLabel = new System.Windows.Forms.Label();
             this.btnDelete = new System.Windows.Forms.Button();
             this.lblStatus = new System.Windows.Forms.Label();
             this.tboxError = new System.Windows.Forms.TextBox();
+            this.cBoxPreparedFiles = new System.Windows.Forms.ComboBox();
+            this.cBoxPage = new System.Windows.Forms.ComboBox();
+            this.lblPage = new System.Windows.Forms.Label();
+            this.btnReset = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblSelectFolder
@@ -73,7 +76,7 @@
             // 
             // btnGetFiles
             // 
-            this.btnGetFiles.Location = new System.Drawing.Point(547, 120);
+            this.btnGetFiles.Location = new System.Drawing.Point(547, 80);
             this.btnGetFiles.Name = "btnGetFiles";
             this.btnGetFiles.Size = new System.Drawing.Size(75, 23);
             this.btnGetFiles.TabIndex = 3;
@@ -94,9 +97,9 @@
             ".png",
             ".torrent",
             ".txt"});
-            this.cBoxExtensions.Location = new System.Drawing.Point(484, 38);
+            this.cBoxExtensions.Location = new System.Drawing.Point(499, 38);
             this.cBoxExtensions.Name = "cBoxExtensions";
-            this.cBoxExtensions.Size = new System.Drawing.Size(138, 28);
+            this.cBoxExtensions.Size = new System.Drawing.Size(123, 28);
             this.cBoxExtensions.Sorted = true;
             this.cBoxExtensions.TabIndex = 4;
             // 
@@ -112,25 +115,16 @@
             // checkBoxRecursiveFolder
             // 
             this.checkBoxRecursiveFolder.AutoSize = true;
-            this.checkBoxRecursiveFolder.Location = new System.Drawing.Point(473, 85);
+            this.checkBoxRecursiveFolder.Location = new System.Drawing.Point(318, 80);
             this.checkBoxRecursiveFolder.Name = "checkBoxRecursiveFolder";
-            this.checkBoxRecursiveFolder.Size = new System.Drawing.Size(149, 17);
+            this.checkBoxRecursiveFolder.Size = new System.Drawing.Size(201, 17);
             this.checkBoxRecursiveFolder.TabIndex = 6;
-            this.checkBoxRecursiveFolder.Text = "Delete files in inner folders";
+            this.checkBoxRecursiveFolder.Text = "Delete files in inner folders (recursive)";
             this.checkBoxRecursiveFolder.UseVisualStyleBackColor = true;
-            // 
-            // cBoxPreparedFiles
-            // 
-            this.cBoxPreparedFiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cBoxPreparedFiles.FormattingEnabled = true;
-            this.cBoxPreparedFiles.Location = new System.Drawing.Point(15, 186);
-            this.cBoxPreparedFiles.Name = "cBoxPreparedFiles";
-            this.cBoxPreparedFiles.Size = new System.Drawing.Size(504, 21);
-            this.cBoxPreparedFiles.TabIndex = 7;
             // 
             // btnRemoveFile
             // 
-            this.btnRemoveFile.Location = new System.Drawing.Point(547, 186);
+            this.btnRemoveFile.Location = new System.Drawing.Point(547, 146);
             this.btnRemoveFile.Name = "btnRemoveFile";
             this.btnRemoveFile.Size = new System.Drawing.Size(75, 21);
             this.btnRemoveFile.TabIndex = 8;
@@ -141,7 +135,7 @@
             // lblPreparedFilesLabel
             // 
             this.lblPreparedFilesLabel.AutoSize = true;
-            this.lblPreparedFilesLabel.Location = new System.Drawing.Point(12, 170);
+            this.lblPreparedFilesLabel.Location = new System.Drawing.Point(12, 130);
             this.lblPreparedFilesLabel.Name = "lblPreparedFilesLabel";
             this.lblPreparedFilesLabel.Size = new System.Drawing.Size(136, 13);
             this.lblPreparedFilesLabel.TabIndex = 9;
@@ -172,15 +166,58 @@
             this.tboxError.Location = new System.Drawing.Point(15, 252);
             this.tboxError.Multiline = true;
             this.tboxError.Name = "tboxError";
+            this.tboxError.ReadOnly = true;
             this.tboxError.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.tboxError.Size = new System.Drawing.Size(504, 50);
             this.tboxError.TabIndex = 15;
+            // 
+            // cBoxPreparedFiles
+            // 
+            this.cBoxPreparedFiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cBoxPreparedFiles.FormattingEnabled = true;
+            this.cBoxPreparedFiles.Location = new System.Drawing.Point(15, 146);
+            this.cBoxPreparedFiles.MaxDropDownItems = 100;
+            this.cBoxPreparedFiles.Name = "cBoxPreparedFiles";
+            this.cBoxPreparedFiles.Size = new System.Drawing.Size(504, 21);
+            this.cBoxPreparedFiles.TabIndex = 7;
+            // 
+            // cBoxPage
+            // 
+            this.cBoxPage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cBoxPage.FormattingEnabled = true;
+            this.cBoxPage.Location = new System.Drawing.Point(463, 119);
+            this.cBoxPage.Name = "cBoxPage";
+            this.cBoxPage.Size = new System.Drawing.Size(56, 21);
+            this.cBoxPage.TabIndex = 16;
+            this.cBoxPage.SelectedIndexChanged += this.OnPageSelect;
+            // 
+            // lblPage
+            // 
+            this.lblPage.AutoSize = true;
+            this.lblPage.Location = new System.Drawing.Point(419, 122);
+            this.lblPage.Name = "lblPage";
+            this.lblPage.Size = new System.Drawing.Size(38, 13);
+            this.lblPage.TabIndex = 17;
+            this.lblPage.Text = "Page :";
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(547, 119);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(75, 23);
+            this.btnReset.TabIndex = 18;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.OnClickResetForm);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(644, 305);
+            this.Controls.Add(this.btnReset);
+            this.Controls.Add(this.lblPage);
+            this.Controls.Add(this.cBoxPage);
             this.Controls.Add(this.tboxError);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.btnDelete);
@@ -210,12 +247,15 @@
         private System.Windows.Forms.ComboBox cBoxExtensions;
         private System.Windows.Forms.Label lblExtensionLabel;
         private System.Windows.Forms.CheckBox checkBoxRecursiveFolder;
-        private System.Windows.Forms.ComboBox cBoxPreparedFiles;
         private System.Windows.Forms.Button btnRemoveFile;
         private System.Windows.Forms.Label lblPreparedFilesLabel;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.TextBox tboxError;
+        private System.Windows.Forms.ComboBox cBoxPreparedFiles;
+        private System.Windows.Forms.ComboBox cBoxPage;
+        private System.Windows.Forms.Label lblPage;
+        private System.Windows.Forms.Button btnReset;
     }
 }
 
