@@ -19,7 +19,7 @@
         }
 
         public void AddAll(IEnumerable<string> files)
-        {   
+        {
             foreach (var file in files)
             {
                 this.Add(file);
@@ -41,9 +41,11 @@
         public string[] ShowFilesPerPage(int page, int resultsPerPage)
         {
             var tempCollection = new HashSet<string>();
-            
+
             int startIndex = (page - 1) * resultsPerPage;
-            int endIndex = (page * resultsPerPage) < this.foundFiles.Count ? (page * resultsPerPage) : this.foundFiles.Count;
+            int endIndex = (page * resultsPerPage) < this.foundFiles.Count
+                ? (page * resultsPerPage)
+                : this.foundFiles.Count;
 
             for (int i = startIndex; i < endIndex; i++)
             {
@@ -54,7 +56,7 @@
         }
 
         public int GetPages(int resultsPerPage)
-        {   
+        {
             var numOfPages = this.foundFiles.Count / resultsPerPage;
 
             if (numOfPages * resultsPerPage < this.foundFiles.Count)
@@ -68,6 +70,18 @@
         public IEnumerable<string> GetAllFiles()
         {
             return this.foundFiles;
+        }
+
+        public bool Clear()
+        {
+            this.foundFiles.Clear();
+
+            if (this.foundFiles.Count > 0)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

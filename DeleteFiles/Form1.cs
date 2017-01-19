@@ -72,15 +72,14 @@
             this.lblPage.Visible = false;
 
             this.ClearLastActivity();
-            //todo
         }
 
         private void SelectFolderOnClick(object sender, EventArgs e)
         {
-            int numOfFiles = 110;
-            string testPath = @"D:\Downloads\test";
-            string nameOfFile = "test";
-            this.GenerateTxtFiles(numOfFiles, nameOfFile, testPath);
+            //int numOfFiles = 110;
+            //string testPath = @"D:\Downloads\test";
+            //string nameOfFile = "test";
+            //this.GenerateTxtFiles(numOfFiles, nameOfFile, testPath);
 
             FolderBrowserDialog folder = new FolderBrowserDialog();
 
@@ -196,6 +195,8 @@
             int numberOfDeletedFiles = this.deleter.DeleteFiles(this.repo.GetAllFiles());
 
             this.cBoxPreparedFiles.Items.Clear();
+
+            this.repo.Clear();
 
             this.PrintCountOfDeletedFiles(numberOfDeletedFiles);
 

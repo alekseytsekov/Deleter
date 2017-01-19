@@ -10,6 +10,8 @@
 
         bool Remove(string file);
 
+        bool Clear();
+
         string[] ShowFilesPerPage(int page, int resultsPerPage);
 
         int GetPages(int resultsPerPage);
